@@ -1,0 +1,67 @@
+{%- if cookiecutter.ci_implementation == "bitbucket-pipelines" -%}
+definitions:
+  stages:
+    - stage: &lint
+      name: lint
+      parallel:
+        steps:
+          - step:
+              name: check formatting with black
+              image: pyfound/black:latest_release
+              script: [black --check --verbose .]
+          - step:
+              name: lint python code
+              image: python:3.10
+              caches: [pip]
+              script:
+                - pip install flake8 flake8-docstrings isort
+                - flake8 --verbose
+                - isort --check-only --verbose .
+    - stage: &test
+      name: test
+      steps:
+        - step:
+            name: test with pytest
+            image: python:3.10
+            caches: [pip]
+            script:
+              - pip install pytest pytest-xdist pytest-cov
+              - pip install .[tests]
+              - |
+                pytest --junitxml ./test-reports/junit.xml \
+                --cov --cov-report xml:./test-reports/coverage.xml
+                #  -n auto  # causes DeprecationWarning: The --rsyncdir command line argument and rsyncdirs config variable are deprecated.
+    - stage: &build
+      name: build and deploy
+      steps:
+        - step:
+            name: build
+            image: python:3.10
+            caches: [pip]
+            script:
+              - pip install build wheel
+              - python -m build --wheel
+        - step:
+            name: upload
+            image: python:3.10
+            caches: [pip]
+            deployment: uat # TODO figure out how to replace this for prod only
+            script:
+              - pip install twine
+              - |
+                twine upload --non-interactive --disable-progress-bar --verbose \
+                --repository-url $PYTHON_REPO_URL \
+                --username $PYTHON_REPO_USER \
+                --password $PYTHON_REPO_PASSWORD \
+                dist/*
+
+pipelines:
+  default:
+    - stage: &lint
+    - stage: &test
+  branches:
+    master:
+      - stage: &lint
+      - stage: &test
+      - stage: &build
+{% endif -%}
