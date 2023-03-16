@@ -1,6 +1,6 @@
 {
     "repo_name": "myproject",
-    "repo_org": "gcatania",
+    "repo_org": "ilcatania",
     "module_name": "{{ cookiecutter.repo_name|lower|replace('-', '_') }}",
     "project_description": "Project description for {{ cookiecutter.repo_name }}",
     "license": ["Apache Software License 2.0", "No license"],
