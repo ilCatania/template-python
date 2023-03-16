@@ -8,6 +8,7 @@
         "yes",
         "no"
     ],
+    "remote_git": ["github.com", "bitbucket.org"],
     "ci_implementation": [
         "github-actions",
         "bitbucket-pipelines",

@@ -17,7 +17,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-repository = "https://github.com/{{ cookiecutter.repo_org }}/{{ cookiecutter.repo_name }}/"
+repository = "https://{{cookiecutter.remote_git }}/{{ cookiecutter.repo_org }}/{{ cookiecutter.repo_name }}/"
 
 [project.optional-dependencies]
 dev = [
