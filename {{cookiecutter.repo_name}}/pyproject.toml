@@ -50,7 +50,7 @@ source = ['{{ cookiecutter.module_name }}']
 omit = ['tests/*']
 
 [tool.coverage.paths]
-source = ['src', '*/site-packages']
+source = ['src', '*/site-packages/{{ cookiecutter.module_name }}']
 
 [tool.coverage.report]
 exclude_lines = [
