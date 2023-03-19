@@ -35,6 +35,7 @@ tests = [
 
 [tool.isort]
 profile = "black"
+line_length = 80
 
 [tool.black]
 line-length = 80
