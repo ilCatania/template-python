@@ -43,3 +43,8 @@ repos:
         -   "--expand-star-imports"
         -   "--remove-all-unused-imports"
         -   "--ignore-init-module-imports"
+-   repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.9.0
+    hooks:
+    -   id: shellcheck
+        args: ["--external-sources"]
